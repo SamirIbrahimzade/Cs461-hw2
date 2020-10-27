@@ -1,4 +1,5 @@
 import random
+from queue import PriorityQueue
 
 
 def mixer(puzzleGrid):
@@ -94,7 +95,8 @@ def checkRight(s):
     return False
   return True
 
-def moveUp(s):
+def moveUp(puzzle):
+  s = puzzle
   length = len(s)
 
   for i in range(length):
@@ -103,9 +105,10 @@ def moveUp(s):
           temp = s[i-1][j]
           s[i-1][j] = 0
           s[i][j] = temp
-          return
+          return s
 
-def moveDown(s):
+def moveDown(puzzle):
+  s = puzzle
   length = len(s)
 
   for i in range(length):
@@ -115,9 +118,10 @@ def moveDown(s):
           temp = s[i+1][j]
           s[i+1][j] = 0
           s[i][j] = temp
-          return
+          return s
 
-def moveLeft(s):
+def moveLeft(puzzle):
+  s = puzzle
   length = len(s)
 
   for i in range(length):
@@ -126,9 +130,10 @@ def moveLeft(s):
           temp = s[1][j-1]
           s[1][j-1] = 0
           s[i][j] = temp
-          return
+          return s
 
-def moveRight(s):
+def moveRight(puzzle):
+  s = puzzle
   length = len(s)
 
   for i in range(length):
@@ -137,14 +142,59 @@ def moveRight(s):
           temp = s[i][j+1]
           s[i][j+1] = 0
           s[i][j] = temp
-          return
-          
+          return s
+
       
 
 def Astar(puzzle):
 
   #form a queue with root node
-  queue = []
+  queue = PriorityQueue()
+  
+  misplacedTiles = countMisplacedTiles(puzzle)
+
+  node = {
+    "Puzzle" : puzzle,
+    "Cost" : misplacedTiles
+  }
+  #queue.append(node)
+
+  queue.put((misplacedTiles,puzzle))
+
+  print("worked fine")
+
+  #check if goal is reached
+  while(queue.empty() == False):
+
+    #remove the first path
+    fPath = queue.get()
+    print(fPath)
+    nPuzzle = fPath[1]
+    nCost = fPath[0]
+
+    #print(queue)
+    
+    #add new paths 
+    if(checkUp(nPuzzle)):
+      puz = moveUp(nPuzzle)
+      ncost = countMisplacedTiles(puz)
+      queue.put((nCost,puz))
+      
+    if(checkDown(nPuzzle)):
+      puz = moveUp(nPuzzle)
+      ncost = countMisplacedTiles(puz)
+      queue.put((nCost,puz))
+      
+    if(checkLeft(nPuzzle)):
+      puz = moveUp(nPuzzle)
+      ncost = countMisplacedTiles(puz)
+      queue.put((nCost,puz))
+      
+    if(checkRight(nPuzzle)):
+      puz = moveUp(nPuzzle)
+      ncost = countMisplacedTiles(puz)
+      queue.put((nCost,puz))
+    
 
 
 
@@ -156,4 +206,6 @@ print()
 mixer(T)
 printer(T)
 print(countMisplacedTiles(T))
+print(findEmptyGrid(T))
 
+Astar(T)

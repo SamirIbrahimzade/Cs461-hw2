@@ -48,18 +48,9 @@ def countMisplacedTiles(Array):
 
   for i in range(length):
       for j in range(length):
-          if(i + j == 0 and Array[i][j] != 1):
-            counter = counter + 1
-          if(i + j == 1 and Array[i][j] != 2):
-            counter = counter + 1
-          if(i + j == 2 and Array[i][j] != 3):
-            counter = counter + 1
-          if(i + j == 3 and Array[i][j] != 4):
-            counter = counter + 1
-          if((i + j == 4 or i + j == 5) and Array[i][j] != 5):
-            counter = counter + 1
-          if(i + j == 6 and Array[i][j] != 0):
-            counter = counter + 1
+          if(Array[i][j] != finalGrid[i][j]):
+            counter += 1
+
   return counter
 
 def findEmptyGrid(s):
@@ -197,7 +188,7 @@ def Astar(puzzle):
     
 
 
-
+finalGrid = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
 
 T = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
 

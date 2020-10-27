@@ -1,9 +1,15 @@
 import random
 from queue import PriorityQueue
+import copy
+
+#first part
+# current path
 
 
-# bug --> visited 
-
+#second part
+# collect visited state and cost
+# get rid of same state with more cost
+# counter 
 
 def mixer(puzzleGrid):
   emptyX = 3
@@ -90,7 +96,7 @@ def checkRight(s):
   return True
 
 def moveUp(puzzle):
-  s = puzzle
+  s = copy.deepcopy(puzzle)
   length = len(s)
 
   for i in range(length):
@@ -102,20 +108,19 @@ def moveUp(puzzle):
           return s
 
 def moveDown(puzzle):
-  s = puzzle
+  s = copy.deepcopy(puzzle)
   length = len(s)
 
   for i in range(length):
       for j in range(length):
         if(s[i][j]==0):
-          #print (i,j)
           temp = s[i+1][j]
           s[i+1][j] = 0
           s[i][j] = temp
           return s
 
 def moveLeft(puzzle):
-  s = puzzle
+  s = copy.deepcopy(puzzle)
   length = len(s)
 
   for i in range(length):
@@ -127,7 +132,7 @@ def moveLeft(puzzle):
           return s
 
 def moveRight(puzzle):
-  s = puzzle
+  s = copy.deepcopy(puzzle)
   length = len(s)
 
   for i in range(length):
@@ -160,7 +165,7 @@ def Astar(puzzle):
   #queue.append(node)
   currentPath = []
 
-  queue.put((misplacedTiles,puzzle,currentPath))
+  queue.put((misplacedTiles,puzzle))
 
   print("worked fine")
 
@@ -168,13 +173,15 @@ def Astar(puzzle):
   while(queue.empty() == False):
 
     print(queue.queue,"queue end")
+    print()
     #remove the first path
     fPath = queue.get()
     
     nPuzzle = fPath[1]
-    nCost = fPath[0]
+    newCost = fPath[0]
 
-    if(nCost == 0):
+    if(newCost == 0):
+      printer(nPuzzle)
       return
 
     #print(queue)
@@ -183,35 +190,45 @@ def Astar(puzzle):
     #add new paths 
     if(checkUp(nPuzzle)):
       puz = moveUp(nPuzzle)
+      #printer(puz)
       if(checkVisited(visited,puz) != True):
         ncost = countMisplacedTiles(puz)
         visited.append(puz)
-        currentPath.append(0)
-        queue.put((nCost,puz,currentPath))
+        #currentPath.append(0)
+        
+        queue.put((ncost,puz))
+        #print("flag1")
+        #print(queue.queue)
       
     if(checkDown(nPuzzle)):
+      #printer(nPuzzle)
       puz = moveDown(nPuzzle)
-      if(checkVisited(visited,puz)):
+      
+      #print("flag22")
+      #printer(puz)
+      #print()
+      if(checkVisited(visited,puz)!= True):
         ncost = countMisplacedTiles(puz)
         visited.append(puz)
-        currentPath.append(1)
-        queue.put((nCost,puz,currentPath))
+        #currentPath.append(1)
+        #print("flag2")
+        queue.put((ncost,puz))
       
     if(checkLeft(nPuzzle)):
       puz = moveLeft(nPuzzle)
       if(checkVisited(visited,puz) != True):
         ncost = countMisplacedTiles(puz)
         visited.append(puz)
-        currentPath.append(2)
-        queue.put((nCost,puz,currentPath))
+        #currentPath.append(2)
+        queue.put((ncost,puz))
       
     if(checkRight(nPuzzle)):
       puz = moveRight(nPuzzle)
       if(checkVisited(visited,puz) != True):
         ncost = countMisplacedTiles(puz)
         visited.append(puz)
-        currentPath.append(3)
-        queue.put((nCost,puz,currentPath))
+        #currentPath.append(3)
+        queue.put((ncost,puz))
     
 
 
@@ -219,7 +236,7 @@ finalGrid = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
 
 T = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
 
-printer(T)
+#printer(T)
 print()
 mixer(T)
 printer(T)

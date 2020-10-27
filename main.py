@@ -2,6 +2,9 @@ import random
 from queue import PriorityQueue
 
 
+# bug --> visited 
+
+
 def mixer(puzzleGrid):
   emptyX = 3
   emptyY = 3
@@ -105,7 +108,7 @@ def moveDown(puzzle):
   for i in range(length):
       for j in range(length):
         if(s[i][j]==0):
-          print (i,j)
+          #print (i,j)
           temp = s[i+1][j]
           s[i+1][j] = 0
           s[i][j] = temp
@@ -135,12 +138,18 @@ def moveRight(puzzle):
           s[i][j] = temp
           return s
 
+def checkVisited(vis, arr):
+  for state in vis:
+    if(arr == state):
+      return True
+  return False
       
 
 def Astar(puzzle):
 
   #form a queue with root node
   queue = PriorityQueue()
+  visited = []
   
   misplacedTiles = countMisplacedTiles(puzzle)
 
@@ -149,42 +158,60 @@ def Astar(puzzle):
     "Cost" : misplacedTiles
   }
   #queue.append(node)
+  currentPath = []
 
-  queue.put((misplacedTiles,puzzle))
+  queue.put((misplacedTiles,puzzle,currentPath))
 
   print("worked fine")
 
   #check if goal is reached
   while(queue.empty() == False):
 
+    print(queue.queue,"queue end")
     #remove the first path
     fPath = queue.get()
-    print(fPath)
+    
     nPuzzle = fPath[1]
     nCost = fPath[0]
 
+    if(nCost == 0):
+      return
+
     #print(queue)
+    #print(fPath)
     
     #add new paths 
     if(checkUp(nPuzzle)):
       puz = moveUp(nPuzzle)
-      ncost = countMisplacedTiles(puz)
-      queue.put((nCost,puz))
+      if(checkVisited(visited,puz) != True):
+        ncost = countMisplacedTiles(puz)
+        visited.append(puz)
+        currentPath.append(0)
+        queue.put((nCost,puz,currentPath))
       
     if(checkDown(nPuzzle)):
-      puz = moveUp(nPuzzle)
-      ncost = countMisplacedTiles(puz)
-      queue.put((nCost,puz))
+      puz = moveDown(nPuzzle)
+      if(checkVisited(visited,puz)):
+        ncost = countMisplacedTiles(puz)
+        visited.append(puz)
+        currentPath.append(1)
+        queue.put((nCost,puz,currentPath))
       
     if(checkLeft(nPuzzle)):
-      puz = moveUp(nPuzzle)
-      ncost = countMisplacedTiles(puz)
-      queue.put((nCost,puz))
+      puz = moveLeft(nPuzzle)
+      if(checkVisited(visited,puz) != True):
+        ncost = countMisplacedTiles(puz)
+        visited.append(puz)
+        currentPath.append(2)
+        queue.put((nCost,puz,currentPath))
       
     if(checkRight(nPuzzle)):
-      puz = moveUp(nPuzzle)
-      ncost = countMisplacedTiles(puz)
-      queue.put((nCost,puz))
+      puz = moveRight(nPuzzle)
+      if(checkVisited(visited,puz) != True):
+        ncost = countMisplacedTiles(puz)
+        visited.append(puz)
+        currentPath.append(3)
+        queue.put((nCost,puz,currentPath))
     
 
 

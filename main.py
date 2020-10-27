@@ -40,10 +40,24 @@ def printer(Array):
       for c in r:
           print(c,end = " ")
       print()
+
 T = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
+finalGrid = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 5], [4, 5, 5, 0]]
+
+#
+def findH1(puzzle):
+  h1Value = 0   # number of misplaced tiles
+  for i in range(4):
+    for j in range(4):
+      if(puzzle[i][j] != finalGrid[i][j]):  # if current position of current item is different than as it supposed to be
+        h1Value += 1
+
+  return h1Value
 
 printer(T)
 print()
 mixer(T)
 
 printer(T)
+
+print(findH1(T))

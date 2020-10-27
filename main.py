@@ -2,14 +2,18 @@ import random
 from queue import PriorityQueue
 import copy
 
-#first part
-# current path
 
-
-#second part
+#second part ==> Ayberk
 # collect visited state and cost
 # get rid of same state with more cost
 # counter 
+# current path
+
+#final part
+# create 12 puzzles
+# solve all 12 puzzles
+# polishing(var names)
+# add comments
 
 def mixer(puzzleGrid):
   emptyX = 3

@@ -278,13 +278,14 @@ def Astar(puzzle):
         # remove the first path
         fPath = pqueue.get()
 
-        currentHeuristic = fPath[0]
-        currentTuple = fPath[1]
+        currentHeuristic = copy.deepcopy(fPath[0])
+        currentTuple = copy.deepcopy(fPath[1])
 
-        currentPuzzle = currentTuple[0]
-        currentCostSoFar = currentTuple[1]
+        currentPuzzle = copy.deepcopy(currentTuple[0])
+        currentCostSoFar = copy.deepcopy(currentTuple[1])
         print("currentcostsofar ", currentCostSoFar)
-        currentPath = currentTuple[2]
+        currentPath = copy.deepcopy(currentTuple[2])
+        print(currentPath)
         global printerCount
         if(printerCount > 0):
             if(printerCount == 2):
@@ -299,7 +300,7 @@ def Astar(puzzle):
         #     print(v)
 
 
-        if (currentHeuristic == 0):
+        if (currentPuzzle == finalGrid):
             #print(currentPath)
             if(printerCount > 0):
                 print("puzzle is solved, final state is ")
@@ -347,7 +348,6 @@ def Astar(puzzle):
         heuristics.sort()
         #print("hhsorted", heuristics)
 
-        # pqueue.put (heuristic0 + currentCostSoFar) --> heuristic0   (so on for 1-2-3)
         for i in range(len(currentPuzzle)):  # starting to use paths from the best heuristic value to the worst
             if (heuristics[i] % 10 == 0 and heuristic0 < maxInt):
                 if (checkVisited(visited, puz0) == False):  # this state is never visited
@@ -355,7 +355,7 @@ def Astar(puzzle):
                     newCostSoFar = copy.deepcopy(currentCostSoFar)
                     newCostSoFar += 1  # step cost so far increased
                     visited.append((puz0, newCostSoFar, currentPath))  # adding this state to visited with values
-                    pqueue.put( ( (heuristic0 + currentCostSoFar) , [puz0, newCostSoFar, currentPath]) )  # queue the visited state with heuristic value
+                    pqueue.put( ((heuristic0+newCostSoFar), [puz0, newCostSoFar, currentPath]) )  # queue the visited state with heuristic value
                 else:  # if state is already visited
                     newVisited = []  # new visited after possible change
                     for i in range(len(visited)):
@@ -379,7 +379,8 @@ def Astar(puzzle):
                     newCostSoFar = copy.deepcopy(currentCostSoFar)
                     newCostSoFar += 1  # step cost so far increased
                     visited.append((puz1, newCostSoFar, currentPath))  # adding this state to visited with values
-                    pqueue.put(((heuristic1 + currentCostSoFar), [puz1, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
+                    pqueue.put(
+                        ((heuristic1+newCostSoFar), [puz1, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
                 else:  # if state is already visited
                     newVisited = []  # new visited after possible change
                     for i in range(len(visited)):
@@ -403,7 +404,8 @@ def Astar(puzzle):
                     newCostSoFar = copy.deepcopy(currentCostSoFar)
                     newCostSoFar += 1  # step cost so far increased
                     visited.append((puz2, newCostSoFar, currentPath))  # adding this state to visited with values
-                    pqueue.put(((heuristic2 + currentCostSoFar), [puz2, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
+                    pqueue.put(
+                        ((heuristic2+newCostSoFar), [puz2, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
                 else:  # if state is already visited
                     newVisited = []  # new visited after possible change
                     for i in range(len(visited)):
@@ -427,7 +429,8 @@ def Astar(puzzle):
                     newCostSoFar = copy.deepcopy(currentCostSoFar)
                     newCostSoFar += 1  # step cost so far increased
                     visited.append((puz3, newCostSoFar, currentPath))  # adding this state to visited with values
-                    pqueue.put( ((heuristic3 + currentCostSoFar), [puz3, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
+                    pqueue.put(
+                        ((heuristic3+newCostSoFar), [puz3, newCostSoFar, currentPath]))  # queue the visited state with heuristic value
                 else:  # if state is already visited
                     newVisited = []  # new visited after possible change
                     for i in range(len(visited)):

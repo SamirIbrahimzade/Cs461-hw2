@@ -283,9 +283,9 @@ def Astar(puzzle):
 
         currentPuzzle = copy.deepcopy(currentTuple[0])
         currentCostSoFar = copy.deepcopy(currentTuple[1])
-        print("currentcostsofar ", currentCostSoFar)
+        #print("currentcostsofar ", currentCostSoFar)
         currentPath = copy.deepcopy(currentTuple[2])
-        print(currentPath)
+        #print(currentPath)
         global printerCount
         if(printerCount > 0):
             if(printerCount == 2):
@@ -508,7 +508,7 @@ for i in range(stateCount):
     Astar(S[i])
 
 print()
-print(maxList)
+#print(maxList)
 
 for i in range(stateCount):
     name = "S" + str(i+1)
